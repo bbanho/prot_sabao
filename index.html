@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabanho: o sabão dos Banho kkk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5f5f5;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--secondary-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, white, transparent);
+        }
+
+        .header-content {
+            max-width: 800px;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #ff5252;
+        }
+
+        .section {
+            padding: 80px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .price-card {
+            background: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
+        .price-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .price-list {
+            list-style: none;
+        }
+
+        .price-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .contact-section {
+            background: var(--secondary-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-info {
+            padding: 20px;
+        }
+
+        .contact-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        .map-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .whatsapp-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #128C7E;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 40px 20px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .blog-section {
+            background: var(--secondary-color);
+            padding: 80px 20px;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 20px;
+        }
+
+        .blog-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .blog-content .date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .blog-content p {
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .parallax-section {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+            padding: 100px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .parallax-content {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <h1>Sabanho: o sabão dos Banho</h1>
+            <p>Produtos naturais e sustentáveis para sua casa</p>
+            <a href="#contato" class="cta-button">Fazer Pedido</a>
+        </div>
+    </header>
+
+    <section class="section" id="produtos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossos Produtos</h2>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Sabão de Coco">
+                    <h3>Sabão de Coco</h3>
+                    <p>Sabão artesanal feito com óleo de coco, ideal para roupas delicadas.</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Sabão de Lavanda">
+                    <h3>Sabão de Lavanda</h3>
+                    <p>Sabão com aroma relaxante de lavanda, perfeito para roupas de cama.</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Sabão de Alecrim">
+                    <h3>Sabão de Alecrim</h3>
+                    <p>Sabão com propriedades antissépticas e aroma refrescante.</p>
+                </div>
+            </div>
+
+            <div class="price-card">
+                <h3>Combinações Disponíveis</h3>
+                <ul class="price-list">
+                    <li>
+                        <strong>Kit Básico:</strong> 5 sabões de coco + 3 sabões de lavanda
+                        <br>R$ 45,00
+                    </li>
+                    <li>
+                        <strong>Kit Premium:</strong> 5 sabões de coco + 3 sabões de lavanda + 3 sabões de alecrim
+                        <br>R$ 65,00
+                    </li>
+                    <li>
+                        <strong>Kit Família:</strong> 10 sabões de coco + 5 sabões de lavanda + 5 sabões de alecrim
+                        <br>R$ 95,00
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contact-section" id="contato">
+        <div class="container">
+            <div class="section-title">
+                <h2>Entre em Contato</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Informações de Contato</h3>
+                    <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                    <p><i class="fas fa-envelope"></i> sabanho@pocotom.com.co</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Rua das Flores, 123 - São Paulo, SP</p>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1975844554717!2d-46.6521529!3d-23.5632377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDMzJzQ3LjciUyA0NsKwMzknMDcuNyJX!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefone</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kit">Kit Desejado</label>
+                            <select id="kit" name="kit">
+                                <option value="basico">Kit Básico</option>
+                                <option value="premium">Kit Premium</option>
+                                <option value="familia">Kit Família</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" name="message" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="cta-button">Enviar Pedido</button>
+                    </form>
+                    <a href="https://wa.me/5511999999999" class="whatsapp-button" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Pedir pelo WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-section" id="blog">
+        <div class="container">
+            <div class="section-title">
+                <h2>Blog & Curiosidades</h2>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="História do Sabão">
+                    <div class="blog-content">
+                        <h3>A História do Sabão Artesanal</h3>
+                        <div class="date">15 de Março, 2024</div>
+                        <p>Descubra como o sabão artesanal evoluiu ao longo dos séculos e por que ele continua sendo uma escolha sustentável nos dias de hoje.</p>
+                        <a href="#" class="read-more">Ler mais</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Benefícios">
+                    <div class="blog-content">
+                        <h3>Benefícios do Sabão Natural</h3>
+                        <div class="date">10 de Março, 2024</div>
+                        <p>Conheça os benefícios para a saúde e o meio ambiente ao escolher sabões naturais e artesanais.</p>
+                        <a href="#" class="read-more">Ler mais</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Dicas">
+                    <div class="blog-content">
+                        <h3>Dicas para Conservar seu Sabão</h3>
+                        <div class="date">5 de Março, 2024</div>
+                        <p>Aprenda como armazenar e conservar seus sabões artesanais para maior durabilidade.</p>
+                        <a href="#" class="read-more">Ler mais</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="parallax-section">
+        <div class="parallax-content">
+            <h2>Qualidade e Sustentabilidade</h2>
+            <p>Nossos sabões são feitos com ingredientes 100% naturais e sustentáveis, pensando no seu bem-estar e no meio ambiente.</p>
+        </div>
+    </section>
+
+    <script>
+        // Loading overlay
+        window.addEventListener('load', function() {
+            const overlay = document.querySelector('.loading-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+        });
+
+        // Parallax effect
+        window.addEventListener('scroll', function() {
+            const parallax = document.querySelector('.parallax-section');
+            let scrollPosition = window.pageYOffset;
+            parallax.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+        });
+
+        // Existing form submission code
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Pedido enviado com sucesso! Entraremos em contato em breve.');
+        });
+    </script>
+</body>
+</html> 
